@@ -8,7 +8,9 @@ q="../../Music/mp3data"
 # 重複チェック
 IFS=$'\n'
 for n in "${p[@]}"; do
-    find "$y$n" -type f >> a
+    if [ -e $y$n ]; then
+        find "$y$n" -type f >> a
+    fi
 done
 c=`sort a ignore.txt | uniq -u`
 rm a
