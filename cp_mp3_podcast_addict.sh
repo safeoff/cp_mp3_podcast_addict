@@ -1,32 +1,38 @@
 #!/bin/bash
 #Podcast Addictのフォルダからmp3をコピーする
 
-y="~/storage/shared/Android/data/com.bambuna.podcastaddict/files/podcast/"
+# 元ファイルと保存先の場所
+x="../../"
+y="Android/data/com.bambuna.podcastaddict/files/podcast/"
 p=("Misreading Chat" "Turing Complete FM" "dex.fm" "Rebuild")
-q="~/storage/shared/Music/mp3data"
-k="~/storage/shared/app/cp_mp3_podcast_addict/"
+q="Music/mp3data"
+k="app/cp_mp3_podcast_addict/"
 
-# 重複チェック
+# ファイルをさがす
 IFS=$'\n'
 for n in "${p[@]}"; do
-    if [ -e $y$n ]; then
-        find "$y$n" -type f >> a
+    if [ -e $x$y$n ]; then
+        find "$x$y$n" -type f >> a
     fi
 done
+
+# 重複チェック
 if [ -e a ]; then
-    c=`sort a ~${k}ignore.txt | uniq -u`
+    sort a $x${k}ignore.txt | uniq -d > l
+    c=`sort a l | uniq -u`
     rm a
+    rm l
 fi
 
 # コピーする・ignore.txtに書き出す
 for d in $c; do
-    cp $d $q/`basename $d`
-    echo "$d" >> ${k}ignore.txt
-    echo $d
+    cp $d $x$q/`basename $d`
+    echo "$d" >> $x${k}ignore.txt
+    echo $d done.
 done
 
 # ignore.txtの行数を制限する
 if [ `cat ignore.txt | wc -l` -gt 10 ] ; then
-    sed -e '11,$d' ${k}ignore.txt > e
-    mv e ${k}ignore.txt
+    tail -n 10 $x${k}ignore.txt > e
+    mv e $x${k}ignore.txt
 fi
