@@ -1,9 +1,9 @@
 #!/bin/bash
 #Podcast Addictのフォルダからmp3をコピーする
 
-y="../../Android/data/com.bambuna.podcastaddict/files/podcast/"
+y="~/storage/shared/Android/data/com.bambuna.podcastaddict/files/podcast/"
 p=("Misreading Chat" "Turing Complete FM" "dex.fm" "Rebuild")
-q="../../Music/mp3data"
+q="~/storage/shared/Music/mp3data"
 
 # 重複チェック
 IFS=$'\n'
@@ -12,18 +12,20 @@ for n in "${p[@]}"; do
         find "$y$n" -type f >> a
     fi
 done
-c=`sort a ignore.txt | uniq -u`
-rm a
+if [ -e a ]; then
+    c=`sort a ~/storage/shared/app/cp_mp3_podcast_addict/ignore.txt | uniq -u`
+    rm a
+fi
 
 # コピーする・ignore.txtに書き出す
 for d in $c; do
     cp $d $q/`basename $d`
-    echo "$d" >> ignore.txt
+    echo "$d" >> ~/storage/shared/app/cp_mp3_podcast_addict/ignore.txt
     echo $d
 done
 
 # ignore.txtの行数を制限する
 if [ `cat ignore.txt | wc -l` -gt 10 ] ; then
-    sed -e '11,$d' ignore.txt > e
-    mv e ignore.txt
+    sed -e '11,$d' ~/storage/shared/app/cp_mp3_podcast_addict/ignore.txt > e
+    mv e ~/storage/shared/app/cp_mp3_podcast_addict/ignore.txt
 fi
