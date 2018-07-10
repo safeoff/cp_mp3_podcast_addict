@@ -4,7 +4,7 @@
 # 元ファイルと保存先の場所
 x="../../"
 y="Android/data/com.bambuna.podcastaddict/files/podcast/"
-p=("Misreading Chat" "Turing Complete FM" "dex.fm" "Rebuild" "mozaic_fm")
+p=("Misreading Chat" "Turing Complete FM" "dex.fm" "Rebuild")
 q="Music/mp3data"
 k="app/cp_mp3_podcast_addict/"
 
